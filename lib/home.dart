@@ -40,7 +40,10 @@ class _HomeState extends State<Home> {
               alignment: AlignmentDirectional.center,
               children: <Widget>[
                 LottieBuilder.asset("assets/bubble.json"),
-                StatefulBuilder(key: _totalKey, builder: (BuildContext context, void Function(void Function()) _) => AnimatedFlipCounter(duration: 1.seconds, thousandSeparator: ",", fractionDigits: 2, textStyle: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold), value: total, decimalSeparator: ",", suffix: " DT")),
+                StatefulBuilder(
+                    key: _totalKey,
+                    builder: (BuildContext context, void Function(void Function()) _) =>
+                        AnimatedFlipCounter(duration: 1.seconds, thousandSeparator: ",", fractionDigits: 2, textStyle: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold), value: total, decimalSeparator: ",", suffix: " DT")),
               ],
             ),
           ),
@@ -71,7 +74,12 @@ class _HomeState extends State<Home> {
                                 children: <Widget>[
                                   Expanded(child: Row(children: <Widget>[Flexible(child: Text(operations[index].title, style: const TextStyle(fontSize: 22)))])),
                                   const SizedBox(width: 20),
-                                  Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: operations[index].nature == "-" ? red : emerald, borderRadius: BorderRadius.circular(3)), child: Text(operations[index].currency == "TND" ? "${operations[index].nature} ${operations[index].amount} ${operations[index].currency}" : "${operations[index].nature} ${operations[index].currency}${operations[index].amount}")),
+                                  Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(color: operations[index].nature == "-" ? red : emerald, borderRadius: BorderRadius.circular(3)),
+                                      child: Text(operations[index].currency == "TND"
+                                          ? "${operations[index].nature} ${operations[index].amount} ${operations[index].currency}"
+                                          : "${operations[index].nature} ${operations[index].currency}${operations[index].amount}")),
                                 ],
                               ),
                               const SizedBox(height: 20),
@@ -119,7 +127,7 @@ class _HomeState extends State<Home> {
           height: 50,
           margin: const EdgeInsets.only(bottom: 16),
           alignment: AlignmentDirectional.bottomEnd,
-          child: Center(child: Container(decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.background), width: 20, height: 20)),
+          child: Center(child: Container(decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.surface), width: 20, height: 20)),
         ).animate(onComplete: (AnimationController controller) => controller.repeat(reverse: true)).scale(duration: 1.5.seconds, begin: const Offset(1, 1), end: const Offset(1.2, 1.2)),
       ),
     );

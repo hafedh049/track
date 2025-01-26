@@ -7,11 +7,9 @@ import 'package:em/operation_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 class BSheet extends StatefulWidget {
   const BSheet({super.key});
@@ -68,20 +66,14 @@ class _BSheetState extends State<BSheet> {
   Future<void> getPictureFromGallery() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {
-      image = await FlutterImageCompress.compressAndGetFile(image.path, const Uuid().v8(), format: CompressFormat.png);
-      if (image != null) {
-        _operationPhotoKey.currentState!.setState(() => _operationPicture = File(image!.path));
-      }
+      _operationPhotoKey.currentState!.setState(() => _operationPicture = File(image.path));
     }
   }
 
   Future<void> getPictureFromCamera() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image != null) {
-      image = await FlutterImageCompress.compressAndGetFile(image.path, const Uuid().v8(), format: CompressFormat.png);
-      if (image != null) {
-        _operationPhotoKey.currentState!.setState(() => _operationPicture = File(image!.path));
-      }
+      _operationPhotoKey.currentState!.setState(() => _operationPicture = File(image.path));
     }
   }
 
@@ -92,7 +84,13 @@ class _BSheetState extends State<BSheet> {
       Fluttertoast.showToast(msg: "Check the title field, it is mandatory", backgroundColor: pigmentGreen);
     } else {
       try {
-        database!.addOperation(OperationModel(operationDate: DateTime.now(), title: _fromWhereController.text.trim(), amount: _amountController.text.trim(), currency: _currencyAbb, nature: _nature, picture: _operationPicture == null ? (await rootBundle.load("assets/icon.png")).buffer.asUint8List() : _operationPicture!.readAsBytesSync()));
+        database!.addOperation(OperationModel(
+            operationDate: DateTime.now(),
+            title: _fromWhereController.text.trim(),
+            amount: _amountController.text.trim(),
+            currency: _currencyAbb,
+            nature: _nature,
+            picture: _operationPicture == null ? (await rootBundle.load("assets/icon.png")).buffer.asUint8List() : _operationPicture!.readAsBytesSync()));
         Navigator.pop(context);
       } catch (e) {
         Fluttertoast.showToast(msg: e.toString(), backgroundColor: pigmentGreen);
